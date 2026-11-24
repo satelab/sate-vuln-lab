@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sate.co</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h2>Login</h2>
+  <form id="loginForm">
+    <label for="loginEmail">Username/Email</label>
+    <input id="loginEmail" name="email" type="email" autocomplete="username" required>
+
+    <label for="loginPass">Password</label>
+    <input id="loginPass" name="password" type="password" autocomplete="current-password" required>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <hr>
+
+  <h2>Register</h2>
+  <form id="registerForm">
+    <label for="regEmail">Username/Email</label>
+    <input id="regEmail" name="email" type="email" autocomplete="username" required>
+
+    <label for="regPass">Password</label>
+    <input id="regPass" name="password" type="password" autocomplete="new-password" required>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <!-- Reset button outside both forms so it can read either email -->
+  <button type="button" id="resetBtn">Reset Password</button>
+
+  <script>
+    async function postJSON(url, body) {
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        const text = await res.text();
+        return { ok: res.ok, status: res.status, text };
+      } catch (err) {
+        return { ok: false, status: 0, text: 'Network error — is the server running?' };
+      }
+    }
+
+    // ---- LOGIN ----
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email    = e.target.email.value;
+      const password = e.target.password.value;
+      const r = await postJSON('/login', { email, password });
+      alert(r.ok ? r.text : `Login failed (${r.status}): ${r.text}`);
+    });
+
+    // ---- REGISTER ----
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email    = e.target.email.value;
+      const password = e.target.password.value;
+      const r = await postJSON('/register', { email, password });
+      alert(r.ok ? r.text : `Register failed (${r.status}): ${r.text}`);
+    });
+
+    // ---- RESET ----
+    document.getElementById('resetBtn').addEventListener('click', async () => {
+      const email =
+        document.getElementById('loginEmail').value ||
+        document.getElementById('regEmail').value;
+      if (!email) return alert('Enter your email in either form first.');
+      const r = await postJSON('/reset', { email });
+      alert(r.ok ? r.text : `Reset failed (${r.status}): ${r.text}`);
+    });
+  </script>
+
+</body>
+</html>

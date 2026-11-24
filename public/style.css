@@ -1,0 +1,6 @@
+form label { display: block; margin-top: 10px; font-weight: 600; }
+form input { display: block; width: 100%; max-width: 320px; padding: 6px; margin-bottom: 10px; }
+form button { margin-top: 4px; }
+hr { margin: 24px 0; 
+background-image: url(bg.jpg);
+}

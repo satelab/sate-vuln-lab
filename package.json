@@ -1,0 +1,22 @@
+{
+  "name": "gmc-gophish",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "express": "^4.19.2",
+    "express-rate-limit": "^8.7.5",
+    "sqlite3": "^5.1.7"
+  },
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "allowScripts": {
+    "sqlite3@5.1.7": true
+  }
+}
